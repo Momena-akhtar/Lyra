@@ -17,7 +17,7 @@ app.get("/", (_req: Request, res: Response) => {
   res.send(`<!DOCTYPE html>
 <html>
 <head>
-    <title>Bella AI</title>
+    <title>Lyra AI</title>
     <meta charset="utf-8">
     <style>
         body {
@@ -39,7 +39,7 @@ app.get("/", (_req: Request, res: Response) => {
     </style>
 </head>
 <body>
-    <h1>Bella AI</h1>
+    <h1>Lyra AI</h1>
     <p>Version: 1.0.0 (Initial Release)</p>
     <p>© Momena Akhtar - 2025</p>
     <p><strong>Environment:</strong> ${ENV}</p>
