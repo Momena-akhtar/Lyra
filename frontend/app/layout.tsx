@@ -4,28 +4,16 @@ import "./globals.css";
 
 const poppins = Poppins({
   variable: "--font-poppins",
-  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-});
-
-const poppinsBold = Poppins({
-  variable: "--font-poppins-bold",
-  weight: ["700", "800", "900"],
-  subsets: ["latin"],
+  weight: ["400", "700"], // Add weights as needed
 });
 
 export const metadata: Metadata = {
-  title: "Bella AI",
-  description: "AI calls and texts leads instantly to convert them",
-    icons: {
-        icon: "/logo.png",
-        apple: "/logo.png",
-        shortcut: "/logo.png",
-        other: {
-            rel: "icon",
-            url: "/logo.png",
-        },
-    },
+  title: "Lyra",
+  description: "A personal AI assistant.",
+  icons: {
+    icon: "/main.png",
+  },
 };
 
 export default function RootLayout({
@@ -35,9 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${poppins.variable} ${poppinsBold.variable} antialiased`}
-      >
+      <body className={`${poppins.variable} antialiased`}>
         {children}
       </body>
     </html>

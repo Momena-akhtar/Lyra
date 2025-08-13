@@ -1,12 +1,11 @@
-import Navbar from "./components/navbar";
-import Hero from "./components/hero";
-import Footer from "./components/footer";
+import { Hero, VideoBackground, Navbar } from './components';
+
 export default function Home() {
   return (
-    <div className="min-h-screen relative">
-      <Hero />
+    <main className="relative min-h-screen">
+      <VideoBackground />
       <Navbar />
-      <Footer />
-    </div>
+      <Hero />
+    </main>
   );
 }
