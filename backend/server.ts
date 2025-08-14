@@ -1,17 +1,9 @@
 import express, { Request, Response } from "express";
-import dotenv from "dotenv";
-
-// Load the correct .env file based on NODE_ENV
-dotenv.config({
-  path:
-    process.env.NODE_ENV === "production"
-      ? ".env.production"
-      : ".env.development",
-});
+import { config, serverConfig } from "./src/config/env";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-const ENV = process.env.NODE_ENV || "development";
+const PORT = serverConfig.port;
+const ENV = serverConfig.env;
 
 app.get("/", (_req: Request, res: Response) => {
   res.send(`<!DOCTYPE html>
