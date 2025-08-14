@@ -1,45 +1,44 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import { config, serverConfig } from "./src/config/env";
+import routes from "./src/routes";
+import { errorHandler, notFoundHandler } from "./src/middleware/errorMiddleware";
 
 const app = express();
 const PORT = serverConfig.port;
 const ENV = serverConfig.env;
 
-app.get("/", (_req: Request, res: Response) => {
-  res.send(`<!DOCTYPE html>
-<html>
-<head>
-    <title>Lyra AI</title>
-    <meta charset="utf-8">
-    <style>
-        body {
-            font-family: 'JetBrains Mono', 'Fira Code', 'Source Code Pro', monospace;
-            background-color: #f5f5f5;
-            color: #333;
-            padding: 2rem;
-        }
-        h1 {
-            color: #4a4a4a;
-        }
-        a {
-            color: #007acc;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <h1>Lyra AI</h1>
-    <p>Version: 1.0.0 (Initial Release)</p>
-    <p>© Momena Akhtar - 2025</p>
-    <p><strong>Environment:</strong> ${ENV}</p>
-    <a href="/api/docs/">View API Documentation</a>
-</body>
-</html>`);
+// Middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// CORS middleware
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.header('Access-Control-Allow-Origin', config.CORS_ORIGIN);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
 });
+
+// Request logging middleware
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} - ${req.ip}`);
+  next();
+});
+
+// Mount all routes
+app.use(routes);
+
+// Error handling middleware (must be last)
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`[${ENV}] Server running on http://localhost:${PORT}`);
+  console.log(`[${ENV}] API available at http://localhost:${PORT}/api`);
+  console.log(`[${ENV}] Health check at http://localhost:${PORT}/health`);
 });
