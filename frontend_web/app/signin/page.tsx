@@ -3,9 +3,69 @@
 import { useState } from 'react';
 import { Mail, Lock, User, Chrome, Calendar, FileText, HelpCircle, CheckSquare } from 'lucide-react';
 import { VideoBackground } from '../components';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function SignInPage() {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    displayName: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  
+  const { signIn, signUp, signInWithGoogle } = useAuth();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      if (isSignUp && formData.password !== formData.confirmPassword) {
+        throw new Error('Passwords do not match');
+      }
+
+      if (isSignUp) {
+        await signUp(formData.email, formData.password, formData.displayName);
+      } else {
+        await signIn(formData.email, formData.password);
+      }
+      
+      // Redirect or handle success
+      console.log('Authentication successful!');
+      
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      await signInWithGoogle();
+      console.log('Google authentication successful!');
+      // Redirect or handle success
+      
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
@@ -71,14 +131,24 @@ export default function SignInPage() {
             </p>
           </div>
 
+          {/* Error Display */}
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-sm text-center">
+              {error}
+            </div>
+          )}
+
           {/* Form Fields */}
-          <div className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {isSignUp && (
               <div className="relative">
                 <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted" />
                 <input
                   type="text"
+                  name="displayName"
                   placeholder="Full Name"
+                  value={formData.displayName}
+                  onChange={handleInputChange}
                   className="w-full pl-12 pr-4 py-4 bg-card border border-border rounded-2xl text-sm text-foreground
                   placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent 
                   transition-all duration-300 [&:-webkit-autofill]:!bg-card [&:-webkit-autofill]:!text-foreground"
@@ -90,7 +160,10 @@ export default function SignInPage() {
               <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted" />
                 <input
                   type="email"
+                  name="email"
                   placeholder="Email Address"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   className="w-full pl-12 pr-4 py-4 bg-card border border-border rounded-2xl text-sm text-foreground
                   placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent 
                   transition-all duration-300 [&:autofill]:bg-card [&:autofill]:text-foreground 
@@ -105,7 +178,10 @@ export default function SignInPage() {
               <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted" />
                 <input
                   type="password"
+                  name="password"
                   placeholder="Password"
+                  value={formData.password}
+                  onChange={handleInputChange}
                   className="w-full pl-12 pr-4 py-4 bg-card border border-border rounded-2xl text-sm
                   text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary 
                   focus:border-transparent transition-all duration-300 [&:autofill]:bg-card [&:autofill]:text-foreground 
@@ -121,7 +197,10 @@ export default function SignInPage() {
                 <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted" />
                 <input
                   type="password"
+                  name="confirmPassword"
                   placeholder="Confirm Password"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
                   className="w-full pl-12 pr-4 py-4 bg-card border border-border rounded-2xl text-sm text-foreground
                    placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
                     transition-all duration-300 [&:autofill]:bg-card [&:autofill]:text-foreground 
@@ -132,12 +211,16 @@ export default function SignInPage() {
                 />
               </div>
             )}
-          </div>
 
-          {/* Action Button */}
-          <button className="w-full text-sm group relative cursor-pointer inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-accent text-foreground font-semibold rounded-full transition-all duration-300 transform hover:scale-102 shadow-lg hover:shadow-xl">
-            <span>{isSignUp ? 'Create Account' : 'Sign In'}</span>
-          </button>
+            {/* Action Button */}
+            <button 
+              type="submit"
+              disabled={loading}
+              className="w-full text-sm group relative cursor-pointer inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-accent text-foreground font-semibold rounded-full transition-all duration-300 transform hover:scale-102 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span>{loading ? 'Loading...' : (isSignUp ? 'Create Account' : 'Sign In')}</span>
+            </button>
+          </form>
 
           {/* Divider */}
           <div className="relative">
@@ -150,9 +233,14 @@ export default function SignInPage() {
           </div>
 
           {/* Google Sign In */}
-          <button className="w-full flex text-sm cursor-pointer items-center justify-center gap-3 px-8 py-4 bg-card border border-border text-foreground font-medium rounded-full transition-all duration-300 hover:bg-card/80 hover:border-primary/50 group">
+          <button 
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+            className="w-full flex text-sm cursor-pointer items-center justify-center gap-3 px-8 py-4 bg-card border border-border text-foreground font-medium rounded-full transition-all duration-300 hover:bg-card/80 hover:border-primary/50 group disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             <Chrome className="w-4 h-4 text-muted group-hover:text-primary transition-colors duration-300" />
-            <span>Continue with Google</span>
+            <span>{loading ? 'Loading...' : 'Continue with Google'}</span>
           </button>
 
           {/* Toggle Mode */}
