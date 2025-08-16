@@ -39,6 +39,4 @@ app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`[${ENV}] Server running on http://localhost:${PORT}`);
-  console.log(`[${ENV}] API available at http://localhost:${PORT}/api`);
-  console.log(`[${ENV}] Health check at http://localhost:${PORT}/health`);
 });
