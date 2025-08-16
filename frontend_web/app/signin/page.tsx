@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Lock, User, Chrome } from 'lucide-react';
+import { Mail, Lock, User, Chrome, Calendar, FileText, HelpCircle, CheckSquare } from 'lucide-react';
 import { VideoBackground } from '../components';
 
 export default function SignInPage() {
@@ -20,25 +20,37 @@ export default function SignInPage() {
         <div className="relative z-10 p-8 h-full hidden lg:flex flex-col justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {/* Feature Card 1 */}
-            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 text-center hover:border-primary/50 transition-all duration-300">
+            <div className="bg-card/80 backdrop-blur-sm border border-primary/50 rounded-2xl p-6 text-center hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all duration-300">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-primary/30 group-hover:to-accent/30 transition-all duration-300">
+                <Calendar className="w-6 h-6 text-primary" />
+              </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">Schedule Meeting</h3>
               <p className="text-sm text-muted">Schedule meetings on Calendly</p>
             </div>
             
             {/* Feature Card 2 */}
-            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 text-center hover:border-primary/50 transition-all duration-300">
+            <div className="bg-card/80 backdrop-blur-sm border border-primary/50 rounded-2xl p-6 text-center hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all duration-300">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-primary/30 group-hover:to-accent/30 transition-all duration-300">
+                <FileText className="w-6 h-6 text-primary" />
+              </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">Write Notes</h3>
               <p className="text-sm text-muted">Create notes on Trello/Notion</p>
             </div>
             
             {/* Feature Card 3 */}
-            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 text-center hover:border-primary/50 transition-all duration-300">
+            <div className="bg-card/80 backdrop-blur-sm border border-primary/50 rounded-2xl p-6 text-center hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all duration-300">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-primary/30 group-hover:to-accent/30 transition-all duration-300">
+                <HelpCircle className="w-6 h-6 text-primary" />
+              </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">Ask Anything</h3>
               <p className="text-sm text-muted">Get answers to your questions</p>
             </div>
             
             {/* Feature Card 4 */}
-            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 text-center hover:border-primary/50 transition-all duration-300">
+            <div className="bg-card/80 backdrop-blur-sm border border-primary/50 rounded-2xl p-6 text-center hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all duration-300">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-primary/30 group-hover:to-accent/30 transition-all duration-300">
+                <CheckSquare className="w-6 h-6 text-primary" />
+              </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">Prioritize Tasks</h3>
               <p className="text-sm text-muted">Organize and prioritize your work</p>
             </div>
