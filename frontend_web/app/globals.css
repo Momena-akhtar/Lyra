@@ -52,6 +52,37 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
+@layer base {
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-text-fill-color: var(--color-foreground) !important;
+    caret-color: var(--color-foreground);
+    /* Replace Chrome's autofill bg & glow */
+    box-shadow: 0 0 0px 1000px var(--color-card) inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px var(--color-card) inset !important;
+    transition: background-color 9999s ease, color 9999s ease;
+  }
+
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill:focus {
+    outline: none;
+    /* keep your Tailwind ring look */
+    box-shadow:
+      0 0 0px 1000px var(--color-card) inset,
+      0 0 0 2px var(--color-primary);
+  }
+
+  /* Firefox */
+  input:-moz-autofill,
+  textarea:-moz-autofill,
+  select:-moz-autofill {
+    color: var(--color-foreground) !important;
+    box-shadow: 0 0 0px 1000px var(--color-card) inset;
+  }
+}
+
 /* Custom Animations */
 @keyframes flow-1 {
   0%, 100% { transform: translateX(-100%) scaleX(0); opacity: 0; }
