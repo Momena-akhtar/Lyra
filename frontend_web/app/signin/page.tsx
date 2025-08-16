@@ -2,19 +2,52 @@
 
 import { useState } from 'react';
 import { Mail, Lock, User, Chrome } from 'lucide-react';
+import { VideoBackground } from '../components';
 
 export default function SignInPage() {
-  const [isSignUp, setIsSignUp] = useState(true);
+  const [isSignUp, setIsSignUp] = useState(false);
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Simple Gradient Container */}
-      <div className="w-1/2 bg-background flex items-center justify-center p-2">
-        <div className="w-full h-full border border-primary/10 rounded-3xl bg-gradient-to-br from-primary/20 via-secondary/15 to-accent/20 border border-border/30"></div>
+    <div className="min-h-screen flex flex-col lg:flex-row">
+      {/* Left Side - Background Animation with Feature Cards */}
+      <div className="w-full lg:w-3/5 relative overflow-hidden">
+        <VideoBackground />
+        
+        {/* Fade Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background/30"></div>
+        
+        {/* Feature Cards Container - Hidden on mobile, shown on desktop */}
+        <div className="relative z-10 p-8 h-full hidden lg:flex flex-col justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            {/* Feature Card 1 */}
+            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 text-center hover:border-primary/50 transition-all duration-300">
+              <h3 className="text-lg font-semibold text-foreground mb-2">Schedule Meeting</h3>
+              <p className="text-sm text-muted">Schedule meetings on Calendly</p>
+            </div>
+            
+            {/* Feature Card 2 */}
+            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 text-center hover:border-primary/50 transition-all duration-300">
+              <h3 className="text-lg font-semibold text-foreground mb-2">Write Notes</h3>
+              <p className="text-sm text-muted">Create notes on Trello/Notion</p>
+            </div>
+            
+            {/* Feature Card 3 */}
+            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 text-center hover:border-primary/50 transition-all duration-300">
+              <h3 className="text-lg font-semibold text-foreground mb-2">Ask Anything</h3>
+              <p className="text-sm text-muted">Get answers to your questions</p>
+            </div>
+            
+            {/* Feature Card 4 */}
+            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 text-center hover:border-primary/50 transition-all duration-300">
+              <h3 className="text-lg font-semibold text-foreground mb-2">Prioritize Tasks</h3>
+              <p className="text-sm text-muted">Organize and prioritize your work</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Right Side - Sign Up Form */} 
-      <div className="w-1/2 bg-background flex items-center justify-center p-8">
+      <div className="w-full lg:w-2/5 bg-background flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-8">
           {/* Header */}
           <div className="text-center">
@@ -121,6 +154,38 @@ export default function SignInPage() {
                 {isSignUp ? 'Sign In' : 'Sign Up'}
               </button>
             </p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Mobile Features Section - Shown below sign-in on mobile */}
+      <div className="lg:hidden bg-card/50 backdrop-blur-sm border-t border-border/50 p-8">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
+            AI Assistant Features
+          </h2>
+          <p className="text-muted text-sm">Discover what your AI assistant can do for you</p>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+          <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 text-center">
+            <h3 className="text-sm font-semibold text-foreground mb-1">Schedule Meeting</h3>
+            <p className="text-xs text-muted">On Calendly</p>
+          </div>
+          
+          <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 text-center">
+            <h3 className="text-sm font-semibold text-foreground mb-1">Write Notes</h3>
+            <p className="text-xs text-muted">Trello/Notion</p>
+          </div>
+          
+          <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 text-center">
+            <h3 className="text-sm font-semibold text-foreground mb-1">Ask Anything</h3>
+            <p className="text-xs text-muted">AI assistance</p>
+          </div>
+          
+          <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 text-center">
+            <h3 className="text-sm font-semibold text-foreground mb-1">Prioritize Tasks</h3>
+            <p className="text-xs text-muted">Workflow</p>
           </div>
         </div>
       </div>
