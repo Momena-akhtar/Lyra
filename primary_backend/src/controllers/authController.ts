@@ -67,6 +67,49 @@ export class AuthController {
   }
 
   /**
+   * Login user with email and password
+   */
+  async login(req: Request, res: Response): Promise<void> {
+    try {
+      const { email, password } = req.body;
+
+      // Validation
+      if (!email || !password) {
+        res.status(400).json({
+          success: false,
+          message: 'Email and password are required'
+        });
+        return;
+      }
+
+      // Attempt to sign in user
+      const user = await authService.signInWithEmail(email, password);
+
+      res.status(200).json({
+        success: true,
+        message: 'Login successful',
+        data: {
+          user: {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            emailVerified: user.emailVerified,
+            createdAt: user.createdAt,
+            lastSignInAt: user.lastSignInAt
+          }
+        }
+      });
+    } catch (error: any) {
+      console.error('Login error:', error);
+      res.status(401).json({
+        success: false,
+        message: 'Invalid email or password',
+        error: error.message
+      });
+    }
+  }
+
+  /**
    * Handle Google authentication (client sends ID token)
    */
   async googleAuth(req: Request, res: Response): Promise<void> {
