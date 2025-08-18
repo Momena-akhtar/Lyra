@@ -275,6 +275,34 @@ export class VoiceService {
   private generateSessionId(): string {
     return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
+
+  /**
+   * Process voice input with AI assistant integration
+   */
+  async processVoiceWithAI(uid: string, transcription: string, context?: any): Promise<{
+    transcription: TranscriptionResult;
+    aiResponse: any;
+  }> {
+    try {
+      // First, save the transcription
+      const transcriptionResult = await this.processVoiceInput(uid, {
+        audioData: '', // We already have transcription
+        audioFormat: 'wav', // Default format for text input
+        language: 'en'
+      });
+
+      // Then, process with AI assistant
+      const { assistantService } = require('./assistantService');
+      const aiResponse = await assistantService.processVoiceInput(uid, transcription, context);
+
+      return {
+        transcription: transcriptionResult,
+        aiResponse
+      };
+    } catch (error: any) {
+      throw new Error(`Failed to process voice with AI: ${error.message}`);
+    }
+  }
 }
 
 export const voiceService = new VoiceService();
