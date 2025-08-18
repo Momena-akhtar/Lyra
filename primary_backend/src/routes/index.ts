@@ -3,6 +3,10 @@ import swaggerUi from 'swagger-ui-express';
 import { specs } from '../config/swagger';
 import authRoutes from './authRoutes';
 import voiceRoutes from './voiceRoutes';
+import taskRoutes from './taskRoutes';
+import goalRoutes from './goalRoutes';
+import noteRoutes from './noteRoutes';
+import assistantRoutes from './assistantRoutes';
 
 const router = Router();
 
@@ -16,6 +20,10 @@ router.get('/docs', swaggerUi.setup(specs, {
 
 router.use(`${API_PREFIX}/auth`, authRoutes);
 router.use(`${API_PREFIX}/voice`, voiceRoutes);
+router.use(`${API_PREFIX}/tasks`, taskRoutes);
+router.use(`${API_PREFIX}/goals`, goalRoutes);
+router.use(`${API_PREFIX}/notes`, noteRoutes);
+router.use(`${API_PREFIX}/assistant`, assistantRoutes);
 
 router.get('/health', (req: Request, res: Response) => {
   res.send(`<!DOCTYPE html>
@@ -169,7 +177,11 @@ router.use((req: Request, res: Response) => {
       '/docs',
       '/api',
       '/api/auth/*',
-      '/api/voice/*'
+      '/api/voice/*',
+      '/api/tasks/*',
+      '/api/goals/*',
+      '/api/notes/*',
+      '/api/assistant/*'
     ]
   });
 });
