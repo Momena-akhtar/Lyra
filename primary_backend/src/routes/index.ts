@@ -2,23 +2,21 @@ import { Router, Request, Response } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { specs } from '../config/swagger';
 import authRoutes from './authRoutes';
+import voiceRoutes from './voiceRoutes';
 
 const router = Router();
 
-// API version prefix
 const API_PREFIX = '/api';
 
-// Swagger documentation
 router.use('/docs', swaggerUi.serve);
 router.get('/docs', swaggerUi.setup(specs, {
   customCss: '.swagger-ui .topbar { display: none }',
   customSiteTitle: 'Lyra AI API Documentation'
 }));
 
-// Mount auth routes
 router.use(`${API_PREFIX}/auth`, authRoutes);
+router.use(`${API_PREFIX}/voice`, voiceRoutes);
 
-// Health check endpoint
 router.get('/health', (req: Request, res: Response) => {
   res.send(`<!DOCTYPE html>
 <html>
@@ -90,7 +88,6 @@ router.get('/health', (req: Request, res: Response) => {
 </html>`);
 });
 
-// Main landing page
 router.get('/', (req: Request, res: Response) => {
   const ENV = process.env.NODE_ENV || 'development';
   
@@ -160,7 +157,6 @@ router.get('/', (req: Request, res: Response) => {
 </html>`);
 });
 
-// 404 handler for undefined routes
 router.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
@@ -172,7 +168,8 @@ router.use((req: Request, res: Response) => {
       '/health',
       '/docs',
       '/api',
-      '/api/auth/*'
+      '/api/auth/*',
+      '/api/voice/*'
     ]
   });
 });
